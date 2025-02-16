@@ -22,7 +22,21 @@ class PizzaController extends Controller
         ]);
     }
 
-    #[Route(uri: '/pizza/delete',routeName: "pizza/delete")]
+    #[Route(uri: "/pizza/show", routeName: "pizzas_show", methods: ["GET"])]
+    public function show(): Response
+    {
+        $id=$this->getRequest()->get(["id"=>"number"]);
+        if(!$id){ return $this->redirectToRoute("pizzas");}
+        $pizza = $this->getRepository()->find($id);
+        if(!$pizza){ return $this->redirectToRoute("pizzas");}
+
+
+        return $this->render('pizza/show', [
+            'pizza' => $pizza
+        ]);
+    }
+
+    #[Route(uri: '/pizza/delete',routeName: "pizza_delete")]
     public function delete(): Response
     {
         $id= $this->getRequest()->get(["id"=>"number"]);
