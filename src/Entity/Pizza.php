@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use App\Repository\PizzaRepository;
+use Attributes\TargetRepository;
 use Core\Attributes\Table;
 
 #[Table(name: 'pizzas')]
+#[TargetRepository(repoName: PizzaRepository::class)]
 class Pizza
 {
     private int $id;

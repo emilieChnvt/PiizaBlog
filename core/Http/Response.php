@@ -22,7 +22,7 @@ public function redirect( array $urlParams = null)
         }
 
 
-        header("Location: index.php$urlEnd");
+        header("Location: index.html.php$urlEnd");
         //exit();
 
         return $this;
