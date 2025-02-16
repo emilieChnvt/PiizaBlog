@@ -10,5 +10,4 @@ use Core\Repository\Repository;
 class PizzaRepository extends Repository
 {
 
-
 }
