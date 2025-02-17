@@ -27,8 +27,9 @@ use Core\Session\Session;
                         <span class="visually-hidden">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-flex">
                     <a class="nav-link" href="/pizza/new">Add Pizza</a>
+                    <a class="nav-link" href="/register">Register</a>
                 </li>
 
 
