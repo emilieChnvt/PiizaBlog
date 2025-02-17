@@ -16,7 +16,8 @@
         <?php foreach ($pizza->getComments() as $comment):?>
         <div class="border p-4">
             <h4><?=$comment->getContent()?></h4>
-            <a href="/comment/delete??id=<?=$comment->getId()?>">delete</a>
+            <a href="/comment/update?id=<?=$comment->getId()?>">edit</a>
+            <a href="/comment/delete?id=<?=$comment->getId()?>">delete</a>
 
 
         </div>

@@ -43,4 +43,23 @@ class CommentController extends Controller
         $this->getRepository()->delete($comment);
         return $this->redirectToRoute("pizzas_show",["id"=>$comment->getPizzaId()]);
     }
+
+    #[Route(uri: "/comment/update", routeName: "pizzas_update", methods: ['POST', 'GET'])]
+    public function update():Response
+    {
+        $id= $this->getRequest()->get(["id"=>"number"]);
+        if(!$id){return $this->redirectToRoute("pizzas_show");}
+        $comment = $this->getRepository()->find($id);
+        if(!$comment){return $this->redirectToRoute("pizzas_show");}
+        $commentForm = new CommentType();
+        if($commentForm->isSubmitted()){
+            $comment->setContent($commentForm->getValue('content'));
+            $comment->setPizzaId($commentForm->getValue('pizza_id'));
+            $id= $this->getRepository()->update($comment);
+            return $this->redirectToRoute("pizzas_show", ["id" => $comment->getPizzaId()]);
+        }
+        return $this->render("comment/update",[
+            "comment" => $comment,
+        ]);
+    }
 }
