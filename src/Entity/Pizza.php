@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentRepository;
 use App\Repository\PizzaRepository;
 use Attributes\TargetRepository;
 use Core\Attributes\Table;
@@ -37,5 +38,11 @@ class Pizza
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getComments()
+    {
+        $commentRepository = new CommentRepository();
+        return $commentRepository->getCommentsByPizza($this);
     }
 }

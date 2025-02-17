@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\Comment;
+use App\Entity\Pizza;
+use Attributes\TargetEntity;
+use Core\Repository\Repository;
+
+#[TargetEntity(entityName: Comment::class)]
+class CommentRepository extends Repository
+{
+    public function getCommentsByPizza(Pizza $pizza): array
+    {
+        $query = $this->pdo->prepare("SELECT * FROM $this->tableName WHERE pizza_id = :pizza_id");
+        $query->execute([
+            'pizza_id' => $pizza->getId()
+        ]);
+        return $query->fetchAll(\PDO::FETCH_CLASS, $this->targetEntity);
+    }
+}
