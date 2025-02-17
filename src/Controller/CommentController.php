@@ -3,12 +3,32 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Pizza;
+use App\Form\CommentType;
 use Attributes\DefaultEntity;
-use Attributes\TargetEntity;
+use Core\Attributes\Route;
 use Core\Controller\Controller;
+use Core\Http\Response;
 
 #[DefaultEntity(entityName: Comment::class)]
 class CommentController extends Controller
 {
+    #[Route(uri: "/comment/add", routeName: "comment_add", methods: ['POST'])]
+    public function save():Response
+    {
+        $commentForm = new CommentType();
 
+        if($commentForm->isSubmitted());
+        {
+            $comment = new Comment();
+            $comment->setContent($commentForm->getValue('content'));
+            $comment->setPizzaId($commentForm->getValue('pizza_id'));
+
+            $id= $this->getRepository()->save($comment);
+
+
+            return $this->redirectToRoute("pizzas_show", ["id" => $comment->getPizzaId()]);
+        }
+        return $this->redirectToRoute("pizzas_show", ["id" => $id]);
+    }
 }

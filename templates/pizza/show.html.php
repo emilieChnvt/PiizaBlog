@@ -19,5 +19,13 @@
         </div>
         <?php endforeach;?>
 
+    <div class="border">
+        <form action="/comment/add" method="post">
+            <input type="text" name="content" class="text">
+            <input type="hidden" name="pizza_id" class="text" value="<?= $pizza->getId()?>">
+            <button class="submit">add comment</button>
+        </form>
+    </div>
+
 
 </div>

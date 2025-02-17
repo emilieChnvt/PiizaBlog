@@ -37,7 +37,7 @@ class PizzaController extends Controller
         ]);
     }
 
-    #[Route(uri: "/pizza/new", routeName: "pizza_add", methods: ["GET", "POST"])]
+    #[Route(uri: "/pizza/add", routeName: "pizza_add", methods: ["GET", "POST"])]
     public function add():Response
     {
         $pizzaForm = new PizzaType();
