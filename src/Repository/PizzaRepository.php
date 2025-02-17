@@ -19,4 +19,14 @@ class PizzaRepository extends Repository
         ]);
         return $pizza->getId();
     }
+
+    public function save(Pizza $pizza):int
+    {
+        $query = $this->pdo->prepare("INSERT INTO $this->tableName (name, description) VALUES (:name, :description)");
+        $query->execute([
+            "name" => $pizza->getName(),
+            "description" => $pizza->getDescription(),
+        ]);
+        return $this->pdo->lastInsertId();
+    }
 }

@@ -37,6 +37,24 @@ class PizzaController extends Controller
         ]);
     }
 
+    #[Route(uri: "/pizza/new", routeName: "pizza_add", methods: ["GET", "POST"])]
+    public function add():Response
+    {
+        $pizzaForm = new PizzaType();
+        if($pizzaForm->isSubmitted())
+        {
+            $pizza = new Pizza();
+         $pizza->setName($pizzaForm->getValue("name"));
+         $pizza->setDescription($pizzaForm->getValue("description"));
+
+         $id = $this->getRepository()->save($pizza);
+         return $this->redirectToRoute("pizzas_show", ["id" => $id]);
+
+        }
+        return $this->render('pizza/new',[
+        ]);
+    }
+
     #[Route(uri: "/pizza/update", routeName: "pizza_update")]
     public function update(): Response
     {
