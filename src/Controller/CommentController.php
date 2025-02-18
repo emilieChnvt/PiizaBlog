@@ -37,10 +37,13 @@ class CommentController extends Controller
     #[Route(uri: "/comment/delete", routeName: "comment_delete", methods: ['POST',"GET"])]
     public function delete():Response
     {
+
         $id= $this->getRequest()->get(["id"=>"number"]);
         if(!$id){return $this->redirectToRoute("pizzas_show");}
         $comment = $this->getRepository()->find($id);
         if(!$comment){return $this->redirectToRoute("pizzas_show");}
+
+        if($comment->getUserId() !== Session::get("user")['id']){return $this->redirectToRoute("pizzas_show", ["id" => $comment->getPizzaId()]);}
 
         $this->getRepository()->delete($comment);
         return $this->redirectToRoute("pizzas_show",["id"=>$comment->getPizzaId()]);
@@ -53,6 +56,9 @@ class CommentController extends Controller
         if(!$id){return $this->redirectToRoute("pizzas_show");}
         $comment = $this->getRepository()->find($id);
         if(!$comment){return $this->redirectToRoute("pizzas_show");}
+
+        if($comment->getUserId() !== Session::get("user")['id']){return $this->redirectToRoute("pizzas_show", ["id" => $comment->getPizzaId()]);}
+
         $commentForm = new CommentType();
         if($commentForm->isSubmitted()){
             $comment->setContent($commentForm->getValue('content'));
