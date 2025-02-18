@@ -15,6 +15,8 @@ class Pizza
     private string $name;
     private string $description;
 
+    private int $user_id;
+
     public function getId(): int
     {
         return $this->id;
@@ -44,5 +46,15 @@ class Pizza
     {
         $commentRepository = new CommentRepository();
         return $commentRepository->getCommentsByPizza($this);
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): void
+    {
+        $this->user_id = $user_id;
     }
 }

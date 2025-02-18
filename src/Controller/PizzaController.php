@@ -10,6 +10,7 @@ use Attributes\TargetRepository;
 use Core\Attributes\Route;
 use Core\Controller\Controller;
 use Core\Http\Response;
+use Core\Session\Session;
 
 #[DefaultEntity(entityName: Pizza::class)]
 class PizzaController extends Controller
@@ -37,7 +38,7 @@ class PizzaController extends Controller
         ]);
     }
 
-    #[Route(uri: "/pizza/add", routeName: "pizza_add", methods: ["GET", "POST"])]
+    #[Route(uri: "/pizza/new", routeName: "pizza_add", methods: ["GET", "POST"])]
     public function add():Response
     {
         $pizzaForm = new PizzaType();
@@ -46,6 +47,7 @@ class PizzaController extends Controller
             $pizza = new Pizza();
          $pizza->setName($pizzaForm->getValue("name"));
          $pizza->setDescription($pizzaForm->getValue("description"));
+         $pizza->setUserId(Session::get("user")['id']);
 
          $id = $this->getRepository()->save($pizza);
          return $this->redirectToRoute("pizzas_show", ["id" => $id]);
@@ -68,6 +70,7 @@ class PizzaController extends Controller
        if($pizzaForm->isSubmitted()){
            $pizza->setName($pizzaForm->getValue("name"));
            $pizza->setDescription($pizzaForm->getValue("description"));
+           $pizza->setUserId(Session::get("user")['id']);
            $this->getRepository()->update($pizza);
 
            return $this->redirectToRoute("pizzas_show", ["id"=>$id]);

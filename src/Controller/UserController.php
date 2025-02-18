@@ -54,6 +54,7 @@ class UserController extends Controller
 
     public function login():Response
     {
+        \Core\Session\Session::start();
         $userForm = new UserType();
         if($userForm->isSubmitted()) {
             $user = $this->getRepository()->findByName($userForm->getValue("name"));
@@ -67,6 +68,10 @@ class UserController extends Controller
 
            $success = $user->logIn($userForm->getValue('password'));
            if($success){
+               \Core\Session\Session::set("user", [
+                   "id" => $user->getId(),
+                   "name" => $user->getName(),
+               ]);
                return $this->redirectToRoute('pizzas');}
         }
         return $this->render('user/login', []);
