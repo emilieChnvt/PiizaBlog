@@ -8,6 +8,8 @@ use Attributes\DefaultEntity;
 use Core\Attributes\Route;
 use Core\Controller\Controller;
 use Core\Http\Response;
+use Core\Repository\Repository;
+use Core\Session\Session;
 
 #[DefaultEntity(entityName: User::class)]
 class UserController extends Controller
@@ -31,9 +33,45 @@ class UserController extends Controller
 
 
             $id = $this->getRepository()->save($user);
-            return $this->redirectToRoute('pizzas');
+            return $this->redirectToRoute('login');
         }
         return $this->render('user/register', []);
     }
+
+    #[Route(uri: "/logout", routeName:'logout', methods: ["POST"])]
+    public function logout():Response
+    {
+       $user = $this->getUser();
+
+        if($user){
+           $user->logOut();
+           return $this->redirectToRoute('pizzas');
+       }
+        return $this->redirectToRoute('login');
+    }
+
+    #[Route(uri: "/login", routeName:'login', methods: ["POST", "GET"])]
+
+    public function login():Response
+    {
+        $userForm = new UserType();
+        if($userForm->isSubmitted()) {
+            $user = $this->getRepository()->findByName($userForm->getValue("name"));
+           if(!$user){return $this->redirectToRoute('login');}
+
+           $id = $user->getId();
+           if(!$id){return $this->redirectToRoute('login');}
+
+           $user = $this->getRepository()->find($id);
+           if(!$user){return $this->redirectToRoute('login');}
+
+           $success = $user->logIn($userForm->getValue('password'));
+           if($success){
+               return $this->redirectToRoute('pizzas');}
+        }
+        return $this->render('user/login', []);
+    }
+
+
 
 }

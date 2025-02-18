@@ -30,9 +30,13 @@ use Core\Session\Session;
                 <li class="nav-item d-flex">
                     <a class="nav-link" href="/pizza/new">Add Pizza</a>
                     <a class="nav-link" href="/register">Register</a>
+                    <a class="nav-link" href="/login">login</a>
+                    <a class="nav-link" href="/logout">logout</a>
                 </li>
 
-
+            <?php if(Session::get("user")):?>
+            <?=Session::get("user")["name"]?>
+                <?php endif;?>
 
             </ul>
 

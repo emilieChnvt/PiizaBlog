@@ -11,7 +11,7 @@ use PDO;
 #[TargetEntity(entityName: User::class)]
 class UserRepository extends Repository
 {
-    public function findByName(string $name): ?User
+    public function findByName(string $name): User | bool
     {
         $query =$this->pdo->prepare("SELECT * FROM users WHERE name = :name");
         $query->execute([

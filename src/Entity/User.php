@@ -5,16 +5,17 @@ use App\Repository\UserRepository;
 use Attributes\TargetEntity;
 use Attributes\TargetRepository;
 use Core\Attributes\Table;
+use Core\Security\UserManagement;
 
 #[Table(name: 'users')]
 #[TargetRepository(repoName:UserRepository::class)]
-class User
+class User extends UserManagement
 {
-    private int $id;
+    protected int $id;
 
     private string $name;
 
-    private string $password;
+    protected string $password;
 
     public function getId(): int
     {
@@ -36,8 +37,10 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+
+
+    public function getAuthenticator()
     {
-        $this->password = $password;
+        // TODO: Implement getAuthenticator() method.
     }
 }
