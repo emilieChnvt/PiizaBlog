@@ -65,6 +65,7 @@ class PizzaController extends Controller
         $pizza = $this->getRepository()->find($id);
         if(!$pizza){ return $this->redirectToRoute("pizzas");}
 
+        if($pizza->getUserId() !== Session::get("user")['id']){return $this->redirectToRoute("pizzas");}
 
         $pizzaForm = new PizzaType();
        if($pizzaForm->isSubmitted()){
@@ -85,10 +86,13 @@ class PizzaController extends Controller
     #[Route(uri: '/pizza/delete',routeName: "pizza_delete")]
     public function delete(): Response
     {
+
         $id= $this->getRequest()->get(["id"=>"number"]);
         if(!$id){ return $this->redirectToRoute("pizzas");}
         $pizza = $this->getRepository()->find($id);
         if(!$pizza){ return $this->redirectToRoute("pizzas");}
+
+        if($pizza->getUserId()!==Session::get("user")['id']){return $this->redirectToRoute("pizzas");}
 
         $this->getRepository()->delete($pizza);
         return $this->redirectToRoute("pizzas");

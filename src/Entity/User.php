@@ -17,6 +17,8 @@ class User extends UserManagement
 
     protected string $password;
 
+
+
     public function getId(): int
     {
         return $this->id;

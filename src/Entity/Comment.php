@@ -16,6 +16,8 @@ class Comment
 
     private int $pizza_id;
 
+    private int $user_id;
+
     public function getId(): int
     {
         return $this->id;
@@ -39,6 +41,16 @@ class Comment
     public function setPizzaId(int $pizza_id): void
     {
         $this->pizza_id = $pizza_id;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): void
+    {
+        $this->user_id = $user_id;
     }
 
 

@@ -9,6 +9,7 @@ use Attributes\DefaultEntity;
 use Core\Attributes\Route;
 use Core\Controller\Controller;
 use Core\Http\Response;
+use Core\Session\Session;
 
 #[DefaultEntity(entityName: Comment::class)]
 class CommentController extends Controller
@@ -23,6 +24,7 @@ class CommentController extends Controller
             $comment = new Comment();
             $comment->setContent($commentForm->getValue('content'));
             $comment->setPizzaId($commentForm->getValue('pizza_id'));
+            $comment->setUserId(Session::get("user")['id']);
 
             $id= $this->getRepository()->save($comment);
 
@@ -55,6 +57,8 @@ class CommentController extends Controller
         if($commentForm->isSubmitted()){
             $comment->setContent($commentForm->getValue('content'));
             $comment->setPizzaId($commentForm->getValue('pizza_id'));
+            $comment->setUserId(Session::get("user")['id']);
+
             $id= $this->getRepository()->update($comment);
             return $this->redirectToRoute("pizzas_show", ["id" => $comment->getPizzaId()]);
         }
